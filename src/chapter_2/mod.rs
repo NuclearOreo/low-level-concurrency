@@ -1,2 +1,3 @@
 mod atomic_load_and_store_operations;
+mod compare_and_exchange_operations;
 mod fetch_and_modify_operations;
