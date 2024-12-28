@@ -1,1 +1,2 @@
 mod happen_before_relationship;
+mod release_and_acquire_ordering;
