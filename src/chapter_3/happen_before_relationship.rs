@@ -53,4 +53,17 @@ mod test {
         let x_y_miss_count = X_Y_MISS.load(Relaxed);
         println!("X Miss: {x_miss_count}, Y Miss: {y_miss_count}, {x_y_miss_count}");
     }
+
+    // Another Example of Happen Before Relationship
+    #[test]
+    fn only_1_and_2() {
+        X.store(1, Relaxed);
+        let t = thread::spawn(|| {
+            let x = X.load(Relaxed);
+            assert!(x == 1 || x == 2);
+        });
+        X.store(2, Relaxed);
+        t.join().unwrap();
+        X.store(3, Relaxed);
+    }
 }
