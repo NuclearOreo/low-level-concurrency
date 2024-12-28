@@ -1,3 +1,4 @@
+mod fences;
 mod happen_before_relationship;
 mod lazy_initialization_indirection;
 mod locking;
