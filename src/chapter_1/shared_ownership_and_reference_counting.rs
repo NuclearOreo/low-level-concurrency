@@ -4,9 +4,9 @@ mod tests {
     use std::thread;
 
     // Shared ownership with statics
-    // Note: Statics are shared across threads and the entire program
-    // Note: Static exist for the entire lifetime of the program
-    // Note: Statics exist before the main function is called
+    // Statics are shared across threads and the entire program
+    // Static exist for the entire lifetime of the program
+    // Statics exist before the main function is called
     static X: [i32; 3] = [1, 2, 3];
     #[test]
     fn shared_ownership_with_statics() {
@@ -15,9 +15,9 @@ mod tests {
     }
 
     // Shared ownership with leaky references
-    // Note: Leaky references are shared across threads and the entire program
-    // Note: The "move" keyword is used to transfer ownership of the "reference" to the thread
-    // Note: The "Box::leak" function is used to create a leaky reference
+    // Leaky references are shared across threads and the entire program
+    // The "move" keyword is used to transfer ownership of the "reference" to the thread
+    // The "Box::leak" function is used to create a leaky reference
     #[test]
     fn shared_ownership_with_leaky_references() {
         let x: &'static [i32; 3] = Box::leak(Box::new([1, 2, 3]));
@@ -26,8 +26,8 @@ mod tests {
     }
 
     // Shared ownership with Arc
-    // Note: Arc is a reference counting pointer
-    // Note: Arc is used in multi-threaded context
+    // Arc is a reference counting pointer
+    // Arc is used in multi-threaded context
     #[test]
     fn shared_ownership_with_arc() {
         let x = Arc::new([1, 2, 3]);

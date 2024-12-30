@@ -6,9 +6,9 @@ mod test {
     use std::time::Duration;
 
     // Example of using mutex with threads
-    // Note: This test demonstrates the use of a Mutex to synchronize access to a shared resource across multiple threads.
-    // Note: A Mutex (mutual exclusion) is used here to prevent data races by ensuring that only one thread can access the shared data (`value`) at a time.
-    // Note: Each thread will attempt to lock the Mutex, perform operations, and then release the lock.
+    // This test demonstrates the use of a Mutex to synchronize access to a shared resource across multiple threads.
+    // A Mutex (mutual exclusion) is used here to prevent data races by ensuring that only one thread can access the shared data (`value`) at a time.
+    // Each thread will attempt to lock the Mutex, perform operations, and then release the lock.
     #[test]
     fn accumulating_with_mutex() {
         let value = Mutex::new(0);
@@ -28,10 +28,10 @@ mod test {
     }
 
     // Example of Thread Parking
-    // Note: This test demonstrates the use of thread parking and unparking.
-    // Note: Thread parking is a way to put a thread to sleep (park it) until it is explicitly woken up (unparked).
-    // Note: The consuming thread will park itself if the queue is empty and will be unparked by the producing thread when a new item is pushed.
-    // Note: This ensures that the consuming thread only runs when there is data to process and sleeps otherwise, reducing CPU usage.
+    // This test demonstrates the use of thread parking and unparking.
+    // Thread parking is a way to put a thread to sleep (park it) until it is explicitly woken up (unparked).
+    // The consuming thread will park itself if the queue is empty and will be unparked by the producing thread when a new item is pushed.
+    // This ensures that the consuming thread only runs when there is data to process and sleeps otherwise, reducing CPU usage.
     #[test]
     fn parking_threads() {
         let queue = Mutex::new(VecDeque::new());
@@ -57,11 +57,11 @@ mod test {
     }
 
     // Example of thread conditionals
-    // Note: This test demonstrates the use of condition variables in conjunction with Mutexes.
-    // Note: Condition variables allow threads to wait for certain conditions to become true.
-    // Note: They are used here to synchronize the consumer thread with the producer, ensuring that the consumer waits until the queue is not empty.
-    // Note: The consumer thread waits on the condition variable until the producer thread notifies it after adding an item to the queue.
-    // Note: This pattern helps in avoiding busy-waiting and makes the inter-thread communication more efficient.
+    // This test demonstrates the use of condition variables in conjunction with Mutexes.
+    // Condition variables allow threads to wait for certain conditions to become true.
+    // They are used here to synchronize the consumer thread with the producer, ensuring that the consumer waits until the queue is not empty.
+    // The consumer thread waits on the condition variable until the producer thread notifies it after adding an item to the queue.
+    // This pattern helps in avoiding busy-waiting and makes the inter-thread communication more efficient.
     #[test]
     fn thread_conditional() {
         let queue = Mutex::new(VecDeque::new());
