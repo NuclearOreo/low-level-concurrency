@@ -1,1 +1,2 @@
 mod simple_mutex_based_channel;
+mod unsafe_oneshot_channel;
