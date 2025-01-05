@@ -58,13 +58,10 @@ mod test {
     #[test]
     fn test_channel() {
         let channel = Channel::new();
-        let t = thread::current();
 
         thread::scope(|s| {
             s.spawn(|| {
-                while !channel.is_ready() {
-                    t.unpark();
-                }
+                while !channel.is_ready() {}
                 let val = channel.receive();
                 assert_eq!(val, "Hello World");
             });
