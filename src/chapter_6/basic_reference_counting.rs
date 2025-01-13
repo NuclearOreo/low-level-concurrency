@@ -30,6 +30,15 @@ mod test {
         fn data(&self) -> &ArcData<T> {
             unsafe { self.ptr.as_ref() }
         }
+
+        pub fn get_mut(arc: &mut Self) -> Option<&mut T> {
+            if arc.data().ref_count.load(Relaxed) == 1 {
+                fence(Acquire);
+                unsafe { Some(&mut arc.ptr.as_mut().data) }
+            } else {
+                None
+            }
+        }
     }
 
     impl<T> Deref for Arc<T> {
