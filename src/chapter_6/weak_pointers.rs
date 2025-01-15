@@ -121,7 +121,7 @@ mod test {
 
     impl<T> Drop for Weak<T> {
         fn drop(&mut self) {
-            if self.data().alloc_ref_count.fetch_sub(1, Relaxed) == 1 {
+            if self.data().alloc_ref_count.fetch_sub(1, Release) == 1 {
                 fence(Acquire);
                 unsafe {
                     drop(Box::from_raw(self.ptr.as_ptr()));
@@ -132,7 +132,7 @@ mod test {
 
     impl<T> Drop for Arc<T> {
         fn drop(&mut self) {
-            if self.weak.data().data_ref_count.fetch_sub(1, Relaxed) == 1 {
+            if self.weak.data().data_ref_count.fetch_sub(1, Release) == 1 {
                 fence(Acquire);
                 let ptr = self.weak.data().data.get();
                 // Safety: The Data reference counter is zero,
