@@ -156,22 +156,28 @@ mod test {
             }
         }
 
+        // Create an Arc with two weak pointers
         let x = Arc::new(("Hello", DetectDrop));
         let y = Arc::downgrade(&x);
         let z = Arc::downgrade(&x);
 
         let t = std::thread::spawn(move || {
+            // Weak pointer should be upgradable at this point.
             let y = y.upgrade().unwrap();
             assert_eq!(y.0, "Hello");
         });
         assert_eq!(x.0, "Hello");
         t.join().unwrap();
 
+        // The data shouldn't be dropped yet.
+        // and the weak pointer should be upgradable.
         assert_eq!(NUM_DROPS.load(Relaxed), 0);
         assert!(z.upgrade().is_some());
 
         drop(x);
 
+        // Now, the data should be dropped, and the
+        // weak pointer should no longer be upgradable
         assert_eq!(NUM_DROPS.load(Relaxed), 1);
         assert!(z.upgrade().is_none());
     }
