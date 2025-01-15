@@ -51,7 +51,7 @@ mod test {
 
     impl<T> Clone for Arc<T> {
         fn clone(&self) -> Self {
-            if self.data().ref_count.fetch_add(1, Relaxed) > usize::MAX / 2 {
+            if self.data().ref_count.load(Relaxed) > usize::MAX / 2 {
                 std::process::abort();
             }
 
@@ -88,7 +88,7 @@ mod test {
         let x = Arc::new(("Hello", DetectDrop));
         let y = x.clone();
 
-        // Send x to another thread, use it there.
+        // Send x to another thread, and use it there.
         let t = std::thread::spawn(move || {
             assert_eq!(x.0, "Hello");
         });
@@ -100,9 +100,10 @@ mod test {
         t.join().unwrap();
 
         // One Arc, x, should be dropped by now.
+        // We still have y, so the object shouldn't have been dropped yet.
         assert_eq!(NUM_DROPS.load(Relaxed), 0);
 
-        // Drop the remaining `Arc`
+        // Drop the remaining `Arc`.
         drop(y);
 
         // Now the `y` is dropped too,
