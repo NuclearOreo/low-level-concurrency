@@ -15,6 +15,7 @@ struct Mutex<T> {
 unsafe impl<T> Sync for Mutex<T> where T: Send {}
 
 impl<T> Mutex<T> {
+    #[allow(dead_code)]
     pub const fn new(value: T) -> Self {
         Self {
             state: AtomicU32::new(0), // 0: unlocked state
@@ -22,6 +23,7 @@ impl<T> Mutex<T> {
         }
     }
 
+    #[allow(dead_code)]
     pub fn lock(&self) -> MutexGuard<T> {
         while self.state.compare_exchange(0, 1, Acquire, Relaxed).is_err() {
             lock_contended(&self.state);
@@ -101,6 +103,7 @@ mod tests {
             }
         }
 
+        #[allow(dead_code)]
         pub fn notify_all(&self) {
             if self.num_waiters.load(Relaxed) > 0 {
                 self.counter.fetch_add(1, Relaxed);

@@ -45,6 +45,7 @@ mod test {
             unsafe { self.ptr.as_ref() }
         }
 
+        #[allow(dead_code)]
         pub fn get_mut(arc: &mut Self) -> Option<&mut T> {
             if arc
                 .data()

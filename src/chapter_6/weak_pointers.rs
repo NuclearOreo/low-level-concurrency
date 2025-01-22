@@ -39,6 +39,7 @@ mod test {
             }
         }
 
+        #[allow(dead_code)]
         pub fn get_mut(arc: &mut Self) -> Option<&mut T> {
             if arc.weak.data().alloc_ref_count.load(Relaxed) == 1 {
                 fence(Acquire);
